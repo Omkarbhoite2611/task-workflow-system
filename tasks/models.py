@@ -70,3 +70,14 @@ class Task(models.Model):
 
     def __str__(self):
         return self.title
+
+class ActiveTaskManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(is_deleted=False)
+
+class Task(models.Model):
+    ...
+    is_deleted = models.BooleanField(default=False)
+
+    objects = ActiveTaskManager()
+    all_objects = models.Manager()
